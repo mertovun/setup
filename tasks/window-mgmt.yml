@@ -1,0 +1,19 @@
+- name: Install GUI and Window Management Packages
+  become: true
+  apt:
+    name: [ "compton",  "i3", "ccache", "dconf-editor", "ubuntu-mate-desktop" ]
+  tags:
+    - install
+    - core
+
+- name: change the window manager of the MATE desktop session to i3
+  shell: dconf write /org/mate/desktop/session/required-components/windowmanager "'i3'"
+  tags:
+    - install
+    - core
+
+- name: disables desktop icons in the MATE desktop environment
+  shell: dconf write /org/mate/desktop/background/show-desktop-icons "false"
+  tags:
+    - install
+    - core
