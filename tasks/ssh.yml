@@ -7,25 +7,10 @@
     - dotfiles
     - install
     - ssh
-- name: Decrypt SSH private key
+- name: Decrypt SSH private key to destination path
   ansible.builtin.shell:
-    cmd: "ansible-vault decrypt '{{ source_key_path }}' --vault-password-file=/dev/stdin"
+    cmd: "ansible-vault decrypt '{{ source_key_path }}' --output '{{ dest_key_path }}' --vault-password-file=/dev/stdin"
     stdin: "{{ vault_password }}"
-- name: Copy SSH private key
-  copy:
-    src: "{{ source_key_path }}"
-    dest: "{{ dest_key_path }}"
-    mode: 0600
-  tags:
-    - dotfiles
-    - install
-    - ssh
-- name: Re-encrypt the SSH private key locally
-  ansible.builtin.shell:
-    cmd: "ansible-vault encrypt '{{ source_key_path }}' --vault-password-file=/dev/stdin"
-    stdin: "{{ vault_password }}"
-  delegate_to: localhost
-  no_log: true
 - name: Copy SSH public key
   copy:
     src: "{{ source_key_path }}.pub"
