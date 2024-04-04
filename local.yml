@@ -21,8 +21,8 @@
     - import_tasks: tasks/ssh.yml
     - import_tasks: tasks/git-setup.yml
     - import_tasks: tasks/core-setup.yml
+    - import_tasks: tasks/clang.yml
     # - import_tasks: tasks/gui.yml
-    # - import_tasks: tasks/clang.yml
 
     # - import_tasks: tasks/node-setup.yml
     # - import_tasks: tasks/npm-packages.yml

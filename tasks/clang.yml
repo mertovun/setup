@@ -1,0 +1,25 @@
+
+- name: Install Clang
+  become: true
+  apt:
+    name: ["clang", "clangd"]
+  tags:
+    - install
+    - core
+    - cpp 
+# - name: Install Clang Multiple Versions
+#   become: true
+#   apt:
+#     name: ["clang-11", "clang-12", "clang-13", "clang-14", "clang-15", "clangd-11", "clangd-12", "clangd-13", "clangd-14", "clangd-15"]
+#   tags:
+#     - install
+#     - core
+#     - cpp
+- name: Install debugging, format, static analysis tools
+  become: true
+  apt:
+    name: ["gdb", "lldb", "clang-format", "cppcheck"]
+  tags:
+    - install
+    - core
+    - cpp
