@@ -4,7 +4,7 @@
       prompt: "Enter SSH Vault password"
       private: yes
   vars:
-    dotfiles_path: "./.dotfiles"
+    dotfiles_path: "./personal/.dotfiles"
     source_key_path: "./.ssh/id_ed25519"
     dest_key_path: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519"
     personal: "{{ lookup('env', 'HOME') }}/personal"
