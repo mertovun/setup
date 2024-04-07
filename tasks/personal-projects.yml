@@ -1,0 +1,18 @@
+- name: Check if project exists
+  stat:
+    path: "{{ personal }}/{{ project.name }}"
+  register: project_status
+- name: Clone Project if it does not exist locally
+  ansible.builtin.git:
+    repo: "{{ project.repo }}"
+    bare: true
+    dest: "{{ personal }}/{{ project.name }}"
+  ignore_errors: yes
+  when: 
+    - project_status.stat.exists == False
+
+- name: Master Checkout for Project
+  shell: cd "{{ personal }}/{{ project.name }}" && git fetch && git worktree add master master
+  ignore_errors: yes
+  when: 
+    - project_status.stat.exists == False

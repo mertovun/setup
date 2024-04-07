@@ -1,0 +1,5 @@
+projects:
+  - name: "personal_project"
+    repo: "git@github.com:mertovun/personal_project.git"
+  - name: "another_project"
+    repo: "git@github.com:username/another_project.git"

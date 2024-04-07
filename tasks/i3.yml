@@ -1,7 +1,7 @@
 - name: Install GUI and Window Management Packages
   become: true
   apt:
-    name: [ "compton",  "i3", "ccache", "dconf-editor", "ubuntu-mate-desktop" ]
+    name: [ "compton",  "i3", "dconf-editor", "ubuntu-mate-desktop" ]
   tags:
     - install
     - core

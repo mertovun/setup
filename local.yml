@@ -4,9 +4,12 @@
       prompt: "Enter SSH Vault password"
       private: yes
   vars:
+    dotfiles_path: "./.dotfiles"
     source_key_path: "./.ssh/id_ed25519"
     dest_key_path: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519"
     personal: "{{ lookup('env', 'HOME') }}/personal"
+  vars_files:
+    - projects.yml
   pre_tasks:
   - name: Update Apt
     become: true
@@ -21,15 +24,21 @@
     - import_tasks: tasks/ssh.yml
     - import_tasks: tasks/git-setup.yml
     - import_tasks: tasks/core-setup.yml
+
+    - import_tasks: tasks/i3.yml
+    - import_tasks: tasks/zsh.yml
     - import_tasks: tasks/clang.yml
-    - import_tasks: tasks/window-mgmt.yml
+    - import_tasks: tasks/vscode.yml
+    - import_tasks: tasks/extra.yml
 
-    # - import_tasks: tasks/zsh-setup.yml
+    - import_tasks: tasks/dotfiles.yml
 
-    # - import_tasks: tasks/node-setup.yml
-    # - import_tasks: tasks/npm-packages.yml
+    - import_tasks: tasks/node-setup.yml
+    - import_tasks: tasks/npm-packages.yml
 
-
-    # - import_tasks: tasks/dotfiles.yml
-
+    - name: Setup each personal project
+      include_tasks: tasks/personal-projects.yml
+      loop: "{{ projects }}"
+      loop_control:
+        loop_var: project
 

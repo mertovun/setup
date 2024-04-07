@@ -1,0 +1,7 @@
+- name: extra packages
+  become: true
+  apt:
+    name: [ "tmux", "wireshark", "fzf", "shutter", "gimp", "xclip", "tldr", "ripgrep"]
+  tags:
+    - install
+    - productivity
