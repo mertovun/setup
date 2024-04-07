@@ -1,0 +1,19 @@
+- name: Ensure the Obsidian directory exists
+  become: yes
+  ansible.builtin.file:
+    path: "/opt/obsidian"
+    state: directory
+    mode: '0755'
+- name: Download Obsidian AppImage
+  become: yes
+  get_url:
+    url: "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.5.12/Obsidian-1.5.12.AppImage"
+    dest: "/opt/obsidian/Obsidian.AppImage"
+    mode: '0755'
+- name: Create symlink to Obsidian AppImage
+  become: yes
+  ansible.builtin.file:
+    src: "/opt/obsidian/Obsidian.AppImage"
+    dest: "/usr/local/bin/obsidian"
+    state: link
+    force: yes

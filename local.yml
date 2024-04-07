@@ -36,6 +36,8 @@
     - import_tasks: tasks/node-setup.yml
     - import_tasks: tasks/npm-packages.yml
 
+    - import_tasks: tasks/obsidian.yml
+
     - name: Setup each personal project
       include_tasks: tasks/personal-projects.yml
       loop: "{{ projects }}"
