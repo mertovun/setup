@@ -6,6 +6,12 @@
     - install
     - core
 
+- name: change the GNOME dock size
+  shell: gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 24
+  tags:
+    - install
+    - core
+
 - name: change the window manager of the MATE desktop session to i3
   shell: dconf write /org/mate/desktop/session/required-components/windowmanager "'i3'"
   tags:
@@ -14,6 +20,15 @@
 
 - name: disables desktop icons in the MATE desktop environment
   shell: dconf write /org/mate/desktop/background/show-desktop-icons "false"
+  tags:
+    - install
+    - core
+
+- name: Install i3-resurrect
+  become: true
+  pip:
+    name: i3-resurrect
+    state: present
   tags:
     - install
     - core
