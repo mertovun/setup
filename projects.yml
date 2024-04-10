@@ -1,5 +1,3 @@
 projects:
-  - name: "personal_project"
-    repo: "git@github.com:mertovun/personal_project.git"
-  - name: "another_project"
-    repo: "git@github.com:username/another_project.git"
+  - name: "mert-obsidian"
+    repo: "git@github.com:mertovun/mert-obsidian.git"

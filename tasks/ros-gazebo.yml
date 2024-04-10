@@ -4,16 +4,11 @@
   become: yes
   block:
     - name: ensure that the Ubuntu Universe repository is enabled
-      ansible.builtin.shell:
-        cmd: sudo add-apt-repository universe -y
+      shell: sudo add-apt-repository universe -y
     - name: Add the ROS 2 GPG key with apt
-      ansible.builtin.shell:
-        cmd: curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-
+      shell: curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
     - name: Then add the repository to your sources list
-      ansible.builtin.shell:
-        cmd: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
-
+      shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
     - name: Install ROS 2 Humble Hawksbill
       ansible.builtin.apt:
         name: "{{ item }}"
@@ -21,33 +16,46 @@
         force_apt_get: yes
       loop:
         - ros-humble-desktop
-
     - name: Setup ROS 2 environment
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
         line: "source /opt/ros/humble/setup.zsh"
         create: yes
 
+    - name: Install colcon-common-extensions using pip
+      pip:
+        name: colcon-common-extensions
+        state: latest
+
+    - name: Install VCStool
+      apt:
+        name: python3-vcstool
+        state: present
+
+    - name: Install additional ROS 2 development tools
+      pip:
+        name:
+          - rosdep
+          - rosinstall_generator
+          - rospkg
+          - catkin_pkg
+        state: latest
+
+    - name: Initialize rosdep
+      shell: sudo rosdep init && rosdep update
+      ignore_errors: yes # Because rosdep init will fail if already initialized
+
+    # - name: argcomplete
+    #   ansible.builtin.shell:
+    #     cmd: pip3 install -U argcomplete
+ 
+    # https://classic.gazebosim.org/tutorials?tut=install_ubuntu
     - name: Check if Gazebo is installed
       ansible.builtin.command: gazebo --version
       register: gazebo_check
       ignore_errors: yes
-    
     - name: Install Gazebo
       ansible.builtin.shell: |
         curl -sSL http://get.gazebosim.org | sh
       when: "'Gazebo multi-robot simulator' not in gazebo_check.stdout"
 
-    # - name: Install python3-rosdep
-    #   ansible.builtin.apt:
-    #     name: python3-rosdep
-    #     state: present
-
-    # - name: Initialize rosdep
-    #   ansible.builtin.shell:
-    #     cmd: sudo rosdep init && rosdep update
-    #     ignore_errors: yes # Because rosdep init will fail if already initialized
-
-    # - name: argcomplete
-    #   ansible.builtin.shell:
-    #     cmd: pip3 install -U argcomplete

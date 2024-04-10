@@ -21,22 +21,22 @@
       - install
       - core
   tasks:
-    # - import_tasks: tasks/ssh.yml
-    # - import_tasks: tasks/git-setup.yml
-    # - import_tasks: tasks/core-setup.yml
+    - import_tasks: tasks/ssh.yml
+    - import_tasks: tasks/git-setup.yml
+    - import_tasks: tasks/core-setup.yml
 
-    # - import_tasks: tasks/i3.yml
-    # - import_tasks: tasks/zsh.yml
-    # - import_tasks: tasks/clang.yml
-    # - import_tasks: tasks/vscode.yml
-    # - import_tasks: tasks/extra.yml
+    - import_tasks: tasks/i3.yml
+    - import_tasks: tasks/zsh.yml
+    - import_tasks: tasks/clang.yml
+    - import_tasks: tasks/vscode.yml
+    - import_tasks: tasks/extra.yml
 
-    # - import_tasks: tasks/dotfiles.yml
+    - import_tasks: tasks/dotfiles.yml
 
-    # - import_tasks: tasks/node-setup.yml
-    # - import_tasks: tasks/npm-packages.yml
+    - import_tasks: tasks/node-setup.yml
+    - import_tasks: tasks/npm-packages.yml
 
-    # - import_tasks: tasks/obsidian.yml
+    - import_tasks: tasks/obsidian.yml
 
     - import_tasks: tasks/ros-gazebo.yml
 
