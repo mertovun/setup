@@ -1,0 +1,14 @@
+- name: Ensure openai dest directory exists.
+  file:
+    dest: "{{ dest_openai_key_path | dirname }}"
+    mode: 0700
+    state: directory
+  tags:
+    - dotfiles
+    - install
+    - ssh
+- name: Decrypt OpenAI private key to destination path
+  ansible.builtin.shell:
+    cmd: "ansible-vault decrypt '{{ source_openai_key_path }}' --output '{{ dest_openai_key_path }}' --vault-password-file=/dev/stdin"
+    stdin: "{{ vault_password }}"
+
