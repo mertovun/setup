@@ -1,0 +1,7 @@
+- name: Install VirtualBox
+  ansible.builtin.apt:
+    name: virtualbox
+    state: present
+    update_cache: yes
+
+

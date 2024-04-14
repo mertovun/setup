@@ -1,0 +1,16 @@
+- name: add gpg key for Brave browser
+  become: true
+  ansible.builtin.shell: |
+    sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+
+- name: add the Brave browser repository to your sources list
+  become: true
+  ansible.builtin.shell: |
+    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+
+- name: install Brave browser
+  become: true
+  ansible.builtin.apt:
+    update_cache: yes
+    name: brave-browser
+    state: present
