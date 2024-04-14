@@ -41,6 +41,10 @@
           - catkin_pkg
         state: latest
 
+    - name: rqt packages 
+      shell: sudo apt install "~nros-humble-rqt*" -y
+      ignore_errors: yes # Because rosdep init will fail if already initialized
+
     - name: Initialize rosdep
       shell: sudo rosdep init && rosdep update
       ignore_errors: yes # Because rosdep init will fail if already initialized
