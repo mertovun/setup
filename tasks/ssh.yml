@@ -1,6 +1,6 @@
 - name: Ensure .ssh directory exists.
   file:
-    dest: "{{ dest_key_path | dirname }}"
+    dest: "{{ dest_ssh_key_path | dirname }}"
     mode: 0700
     state: directory
   tags:
@@ -9,20 +9,19 @@
     - ssh
 - name: Decrypt SSH private key to destination path
   ansible.builtin.shell:
-    cmd: "ansible-vault decrypt '{{ source_key_path }}' --output '{{ dest_key_path }}' --vault-password-file=/dev/stdin"
+    cmd: "ansible-vault decrypt '{{ source_ssh_key_path }}' --output '{{ dest_ssh_key_path }}' --vault-password-file=/dev/stdin"
     stdin: "{{ vault_password }}"
 - name: Copy SSH public key
   copy:
-    src: "{{ source_key_path }}.pub"
-    dest: "{{ dest_key_path }}.pub"
+    src: "{{ source_ssh_key_path }}.pub"
+    dest: "{{ dest_ssh_key_path }}.pub"
     mode: 0644
   tags:
     - dotfiles
     - install
     - ssh
 - name: Set authorized key took from file
-  authorized_key:
-    user: "{{ lookup('env', 'USER') }}"
+  authorized_ssh_key: user: "{{ lookup('env', 'USER') }}"
     state: present
     key: "{{ lookup('file', item) }}"
   loop: "{{ query('fileglob', lookup('env', 'HOME') + '/.ssh/*.pub') }}"

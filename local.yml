@@ -5,8 +5,10 @@
       private: yes
   vars:
     dotfiles_path: "./personal/.dotfiles"
-    source_key_path: "./.ssh/id_ed25519"
-    dest_key_path: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519"
+    source_ssh_key_path: "./.ssh/id_ed25519"
+    dest_ssh_key_path: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519"
+    source_openai_key_path: "./secrets/openai.key"
+    dest_openai_key_path: "{{ lookup('env', 'HOME') }}/openai/openai.key"
     personal: "{{ lookup('env', 'HOME') }}/personal"
   vars_files:
     - projects.yml
@@ -22,23 +24,25 @@
       - core
   tasks:
     - import_tasks: tasks/ssh.yml
+    - import_tasks: tasks/openai.yml
     - import_tasks: tasks/git-setup.yml
     - import_tasks: tasks/core-setup.yml
 
     - import_tasks: tasks/i3.yml
     - import_tasks: tasks/zsh.yml
+    - import_tasks: tasks/brave.yml
     - import_tasks: tasks/clang.yml
-    - import_tasks: tasks/vscode.yml
+    # - import_tasks: tasks/nvim.yml
+    # - import_tasks: tasks/vscode.yml
     - import_tasks: tasks/extra.yml
-
     - import_tasks: tasks/dotfiles.yml
 
     - import_tasks: tasks/node-setup.yml
     - import_tasks: tasks/npm-packages.yml
 
-    - import_tasks: tasks/obsidian.yml
-
-    - import_tasks: tasks/ros-gazebo.yml
+    # - import_tasks: tasks/obsidian.yml
+    # - import_tasks: tasks/ros-gazebo.yml
+    # - import_tasks: tasks/virtualbox.yml
 
     - name: Setup personal projects
       include_tasks: tasks/personal-projects.yml
